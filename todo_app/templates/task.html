@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{%extends 'base.html'%}
+
+{%block content%}
+
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <div class="main">
+        <div class="sub">
+            <form method="post">
+                <h1 class="mb-3">Welcome {{request.user|upper}}</h1>
+
+
+                {%csrf_token%}
+                {%for field in form%}
+
+
+                {{field}}
+                {%endfor%}
+                <br><button type="submit" class="btn btn-primary">Add</button>
+
+
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    <div class="table_div">
+        <h1>Your Task List</h1>
+        
+
+            <table class="table table-striped">
+                <tr>
+                    <th>TASK</th>
+                    <th>STATUS</th>
+                    <th>EDIT</th>
+                    <th>DELETE</th>
+                </tr>
+                <tr>
+                    {%for i in data%}
+
+                    <td>{{i.name}}</td>
+                    {%if i.complete == False%}
+                    <td><i class="fa-sharp fa-solid fa-xmark"></i></td>
+
+                    {%elif i.complete == True%}
+                    <td><i class="fa-duotone fa-solid fa-check"></i></td>
+
+
+                    {%endif%}
+                    {%if i.complete == False%}
+                    <td><a href="{%url 'edit' i.id%}" class="btn btn-primary">Done</a></td>
+                    {%elif i.complete == True%}
+                    <td><a href="{%url 'edit' i.id%}" class="btn btn-primary">Undone</a></td>
+                    {%endif%}
+                    <td><a href="{%url 'delete' i.id%}" class="btn btn-danger">Remove</a></td>
+                </tr>
+                {%endfor%}
+            </table>
+            <a href="{%url 'log-out'%}" class="btn btn-primary" ;>Logout</a>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+
+
+    <style>
+        .table {
+            width: 50%;
+        }
+
+        .sub {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+        }
+
+        .table_div {
+            display: grid;
+            place-items: center;
+            margin-top: 5%;
+
+
+        }
+
+        .tick {
+            width: 10%;
+        }
+    </style>
+
+
+
+    {%endblock%}
+
+
+</body>
+
+</html>
